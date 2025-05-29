@@ -28,11 +28,18 @@ def main(argv):
 
 
 def parse_file(filename):
-    regex_stack_trace = re.compile(r"^Stack trace:.*(?:(?:\n|\r\n?)+^\s*[at|Caused by]+.*)+", re.MULTILINE)
-    regex_datastax_stack = re.compile(r"^.*?com\.datastax\.driver\.core\.exceptions.*(?:(?:\n|\r\n?)+^\s*[at|Caused by]+.*)+", re.MULTILINE)
-    regex_full_stack = re.compile(r"^.*?Exception.*(?:(?:\n|\r\n?)+^\s*[at|Caused by]+.*)+", re.MULTILINE)
+    regex_stack_trace = re.compile(
+        r"^Stack trace:.*(?:(?:\n|\r\n?)+^\s*[at|Caused by]+.*)+", re.MULTILINE
+    )
+    regex_datastax_stack = re.compile(
+        r"^.*?com\.datastax\.driver\.core\.exceptions.*(?:(?:\n|\r\n?)+^\s*[at|Caused by]+.*)+",
+        re.MULTILINE,
+    )
+    regex_full_stack = re.compile(
+        r"^.*?Exception.*(?:(?:\n|\r\n?)+^\s*[at|Caused by]+.*)+", re.MULTILINE
+    )
     open_file = open(filename, "r")
-    stacks = [match.group(0) for match in regex_stack_trace.finditer(open_file.read())]
+    stacks = [match.group(0) for match in regex_full_stack.finditer(open_file.read())]
     return stacks
 
 
@@ -67,7 +74,7 @@ def print_results(stack_objects):
         print("Stack:\n{}".format(obj.get_stack()))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main(sys.argv)
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
