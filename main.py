@@ -47,6 +47,8 @@ def parse_file(filename: str, debug: bool) -> list[str]:
         re.compile(
             r"^.*?Exception.*(?:(?:\n|\r\n?)+^\s*[at|Caused by]+.*)+", re.MULTILINE
         ),
+        # Thread dump stack trace
+        re.compile(r"^\".*(?:(?:\n|\r\n?)+^\s*[java|at|\-]+.*)+", re.MULTILINE),
     ]
 
     try:
